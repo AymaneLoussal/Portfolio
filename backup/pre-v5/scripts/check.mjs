@@ -1,0 +1,16 @@
+import {readFile,access} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const html=await readFile('index.html','utf8');
+const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+assert.equal(ids.length,new Set(ids).size,'Duplicate element IDs');
+for(const [,id] of html.matchAll(/href="#([^"]+)"/g))assert(ids.includes(id),`Missing anchor ${id}`);
+for(const [,src] of html.matchAll(/(?:src|href)="((?:assets|src)\/[^"#]+)"/g))await access(src);
+assert(!html.includes('cdn.tailwindcss.com'),'Runtime Tailwind must not be required');
+assert(!html.includes('download-cv-btn'),'No fake CV control');
+assert(!/src=""/.test(html),'Empty image source');
+for(const id of ['home','work','about','dimensions','modeling','athletics','parkour','contact'])assert(ids.includes(id));
+const original=await readFile('backup/index.original.html','utf8');
+const manifest=JSON.parse(await readFile('assets/manifest.json','utf8'));
+assert.equal(manifest.length,[...original.matchAll(/<img[^>]+src="https:/g)].length,'Preserve all original photos');
+for(const asset of manifest)await access(asset.src);
+console.log('Passed: unique IDs, navigation targets, local assets, all original photographs, required sections, no fake CV, no runtime Tailwind.');

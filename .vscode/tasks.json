@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Preview portfolio",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/serve.mjs"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

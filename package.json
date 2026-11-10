@@ -1,0 +1,14 @@
+{
+  "name": "ayman-portfolio",
+  "private": true,
+  "version": "5.0.0",
+  "scripts": {
+    "test": "node scripts/browser-check.mjs",
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build-page.mjs",
+    "check": "node --check src/app.js && node --check src/sculpture.js && node --check src/content.js && node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
+  }
+}

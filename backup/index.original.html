@@ -1,0 +1,1175 @@
+<!DOCTYPE html><html class="dark scroll-smooth" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;background-color:#0c0c0e;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+.modal-backdrop { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.tactical-node { transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1), fill 0.2s ease; cursor: pointer; }
+.tactical-node:hover { transform: scale(1.4); }
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-bright":"#39393c","on-error-container":"#ffdad6","error-container":"#93000a","surface-container-high":"#2a2a2d","inverse-on-surface":"#313033","on-primary-container":"#00285d","surface-dim":"#131316","surface-container-lowest":"#0c0c0e","on-secondary":"#3f008e","on-tertiary-container":"#002f34","on-secondary-container":"#c9aeff","primary":"#adc6ff","inverse-primary":"#005ac2","primary-container":"#4d8eff","secondary":"#d2bbff","tertiary-container":"#00a0af","tertiary-fixed":"#91f1ff","on-tertiary-fixed":"#001f23","primary-fixed":"#d8e2ff","surface-tint":"#adc6ff","on-primary-fixed":"#001a42","inverse-surface":"#e5e1e5","tertiary-fixed-dim":"#54d8e8","error":"#ffb4ab","on-tertiary-fixed-variant":"#004f57","on-secondary-fixed-variant":"#5a00c6","surface-container-low":"#151518","surface":"#0e0e11","secondary-container":"#6001d1","on-surface-variant":"#a1a5b5","on-tertiary":"#00363c","on-background":"#e5e1e5","on-primary":"#002e6a","on-secondary-fixed":"#25005a","surface-container":"#1c1c20","primary-fixed-dim":"#adc6ff","outline":"#717585","outline-variant":"#2c2d35","secondary-fixed":"#eaddff","secondary-fixed-dim":"#d2bbff","on-error":"#690005","background":"#0c0c0e","surface-variant":"#242429","on-primary-fixed-variant":"#004395","tertiary":"#54d8e8","surface-container-highest":"#2d2d33","on-surface":"#e8e8ed"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter-desktop":"2.5rem","space-2xl":"8rem","space-sm":"0.5rem","space-xl":"4rem","space-3xl":"12rem","space-xs":"0.25rem","space-md":"1rem","margin-desktop":"4rem","space-lg":"2rem","margin":"1.5rem","gutter":"1.5rem"},fontFamily:{"headline-sm":["Space Grotesk"],"label-mono":["JetBrains Mono"],"body-sm":["Hanken Grotesk"],"headline-xl":["Space Grotesk"],"display-hero":["Space Grotesk"],"headline-lg":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"body-lg":["Hanken Grotesk"],"headline-xl-mobile":["Space Grotesk"],"body-xl":["Hanken Grotesk"],"code-body":["JetBrains Mono"],"display-hero-mobile":["Space Grotesk"],"label-metric":["Space Grotesk"]},fontSize:{"headline-sm":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"label-mono":["11px",{"lineHeight":"14px","letterSpacing":"0.12em","fontWeight":"500"}],"body-sm":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"headline-xl":["72px",{"lineHeight":"76px","letterSpacing":"-0.03em","fontWeight":"600"}],"display-hero":["112px",{"lineHeight":"104px","letterSpacing":"-0.04em","fontWeight":"700"}],"headline-lg":["48px",{"lineHeight":"54px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg-mobile":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["32px",{"lineHeight":"38px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"headline-xl-mobile":["40px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-xl":["20px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"400"}],"code-body":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"display-hero-mobile":["56px",{"lineHeight":"60px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-metric":["14px",{"lineHeight":"18px","letterSpacing":"0.04em","fontWeight":"600"}]}}}};</script><style id="portfolio-motion-fixes">
+#threejs-container { overflow:hidden; isolation:isolate; opacity:1 !important; }
+#threejs-container canvas { position:absolute;inset:0;display:block;width:100% !important;height:100% !important; }
+.three-fallback { position:absolute; inset:0; display:flex; align-items:center;justify-content:center;transform:translateX(20%);opacity:.75; }
+.three-fallback span {position:absolute; width:min(43vw,420px);height:min(43vw,420px);border:7px solid rgba(93,167,255,.55);border-radius:50%;box-shadow:0 0 36px rgba(77,142,255,.27),inset 0 0 35px rgba(139,92,246,.13);transform:rotateX(63deg) rotateY(30deg);animation:orbital 13s linear infinite;}
+.three-fallback span:nth-child(2){width:min(33vw,330px);height:min(33vw,330px);border-color:rgba(176,136,255,.7);animation-duration:10s;animation-direction:reverse;transform:rotateY(70deg) rotateX(28deg);}
+.three-fallback span:nth-child(3){width:min(22vw,220px);height:min(22vw,220px);border-color:rgba(57,200,250,.75);animation-duration:8s;}
+.three-fallback i {width:65px;height:65px;background:radial-gradient(circle at 35% 30%,#b2e6ff,#2563eb 65%,#281353);border-radius:20%;transform:rotate(25deg);animation:coreSpin 7s linear infinite;box-shadow:0 0 35px rgba(59,130,246,.42)}
+@keyframes orbital{from{transform:rotateY(0) rotateX(60deg) rotateZ(0)}to{transform:rotateY(360deg) rotateX(60deg) rotateZ(360deg)}}
+@keyframes coreSpin{to{transform:rotate(385deg)}}
+.reveal-on-scroll{opacity:0;transform:translateY(26px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.8,.2,1)}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+@media(max-width:850px){.three-fallback{transform:none;opacity:.4}#threejs-container{opacity:.65 !important}}
+@media(prefers-reduced-motion:reduce){.three-fallback *, .reveal-on-scroll{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important}}
+</style><link rel="icon" type="image/svg+xml" href="./favicon.svg"></head><body class="bg-[#0c0c0e] font-body-lg text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container antialiased relative overflow-x-hidden">
+<!-- Subtle Ambient Vignette Background -->
+<div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(12,12,14,0.6)_70%,rgba(12,12,14,0.95)_100%)]"></div>
+<!-- NAVIGATION CHROME -->
+<header class="fixed top-0 inset-x-0 z-50 pointer-events-none">
+<div class="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-6">
+<div class="h-16 pointer-events-auto flex items-center justify-between px-6 rounded-full bg-[#111115]/85 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.7)] border border-outline-variant/60">
+<!-- Brand & Refined Status -->
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant font-headline-sm text-sm font-bold text-on-surface group-hover:border-primary/50 transition-colors">
+            AL
+          </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[15px] font-semibold tracking-tight text-on-surface uppercase leading-none">AYMAN LOUSSAL</span>
+<span class="font-label-mono text-[10px] text-tertiary tracking-widest uppercase mt-0.5">DEV • MODEL • ATHLETE</span>
+</div>
+</a>
+<div class="hidden md:flex items-center gap-2 pl-4 border-l border-outline-variant/50">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+</span>
+<span class="font-label-mono text-[11px] text-on-surface-variant tracking-wide">Safi, Morocco • Available for select roles</span>
+</div>
+</div>
+<!-- Desktop Nav Anchors -->
+<nav class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container/60 border border-outline-variant/40">
+<a class="px-3 py-1 rounded-full font-label-mono text-[11px] text-on-surface-variant hover:text-on-surface transition-colors" href="#about">ABOUT</a>
+<a class="px-3 py-1 rounded-full font-label-mono text-[11px] text-on-surface-variant hover:text-on-surface transition-colors" href="#work">WORK</a>
+<a class="px-3 py-1 rounded-full font-label-mono text-[11px] text-on-surface-variant hover:text-on-surface transition-colors" href="#modeling">MODELING</a>
+<a class="px-3 py-1 rounded-full font-label-mono text-[11px] text-on-surface-variant hover:text-on-surface transition-colors" href="#athletics">ATHLETICS</a>
+<a class="px-3 py-1 rounded-full font-label-mono text-[11px] text-on-surface-variant hover:text-on-surface transition-colors" href="#contact">CONTACT</a>
+</nav>
+<!-- Sound Toggle & Actions -->
+<div class="flex items-center gap-3">
+<button aria-label="Toggle sound synthesize engine" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-outline text-on-surface transition-colors cursor-pointer group" id="sound-toggle-btn" title="Synthesizer Sound Effects">
+<span class="flex items-end gap-0.5 h-3 w-3" id="sound-eq-bars">
+<span class="w-0.5 h-2 bg-outline group-hover:bg-primary transition-all"></span>
+<span class="w-0.5 h-3 bg-outline group-hover:bg-primary transition-all"></span>
+<span class="w-0.5 h-1.5 bg-outline group-hover:bg-primary transition-all"></span>
+</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant tracking-wider uppercase" id="sound-status-text">SOUND: OFF</span>
+</button>
+<a class="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-mono text-[11px] font-semibold tracking-wider hover:brightness-110 transition-all shadow-sm" href="#contact">
+          LET'S TALK
+        </a>
+<!-- Mobile Menu Hamburger -->
+<button aria-label="Toggle mobile menu" class="lg:hidden p-2 text-on-surface hover:text-primary transition-colors focus:outline-none" id="mobile-menu-toggle">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer -->
+<div class="hidden lg:hidden pointer-events-auto mt-2 rounded-2xl bg-[#111115]/95 backdrop-blur-2xl border border-outline-variant/70 p-5 shadow-2xl flex flex-col gap-3" id="mobile-menu-drawer">
+<a class="font-label-mono text-xs uppercase tracking-wider text-on-surface py-2 border-b border-outline-variant/30 mobile-link" href="#about">About</a>
+<a class="font-label-mono text-xs uppercase tracking-wider text-on-surface py-2 border-b border-outline-variant/30 mobile-link" href="#work">Selected Work</a>
+<a class="font-label-mono text-xs uppercase tracking-wider text-on-surface py-2 border-b border-outline-variant/30 mobile-link" href="#modeling">Modeling</a>
+<a class="font-label-mono text-xs uppercase tracking-wider text-on-surface py-2 border-b border-outline-variant/30 mobile-link" href="#athletics">Athletics &amp; Movement</a>
+<a class="font-label-mono text-xs uppercase tracking-wider text-on-surface py-2 mobile-link" href="#contact">Contact</a>
+</div>
+</div>
+</header>
+<main class="relative z-10 w-full min-h-screen">
+<!-- ========================================================================= -->
+<!-- 1. CINEMATIC HERO SECTION -->
+<!-- ========================================================================= -->
+<section class="relative w-full min-h-screen flex items-center justify-center px-6 lg:px-12 max-w-7xl mx-auto pt-28 pb-16 overflow-hidden">
+<!-- Metallic Kinetic 3D Sculpture Component Container -->
+<div class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80" id="threejs-container"><div class="three-fallback" aria-hidden="true"><span></span><span></span><span></span><i></i></div></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0c0c0e]/30 to-[#0c0c0e] pointer-events-none z-0"></div>
+<!-- Hero Content (z-10) -->
+<div class="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column: Typography & Intent -->
+<div class="lg:col-span-7 flex flex-col justify-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container border border-outline-variant/50 w-fit mb-6">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-label-mono text-[11px] text-tertiary tracking-widest uppercase">PORTFOLIO V2 // SAFI, MOROCCO</span>
+</div>
+<h1 class="font-headline-xl text-5xl sm:text-7xl lg:text-[5.5rem] leading-[0.95] tracking-tight uppercase font-semibold text-on-surface">
+          AYMAN<br>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-on-surface via-primary to-secondary">LOUSSAL</span>
+</h1>
+<p class="font-headline-sm text-xl sm:text-2xl text-primary font-normal mt-4 tracking-tight">
+          Developer. Model. Athlete.
+        </p>
+<p class="font-body-xl text-lg sm:text-xl text-on-surface-variant mt-4 max-w-xl leading-relaxed font-light">
+          Crafting digital products, commanding editorial presence, and exploring physical discipline across software, modeling, and movement.
+        </p>
+<!-- Genuine Core Competencies Strip -->
+<div class="mt-8 flex flex-wrap gap-2 text-xs font-label-mono text-on-surface-variant">
+<span class="px-2.5 py-1 rounded-md bg-surface-container/70 border border-outline-variant/40">React &amp; TypeScript</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container/70 border border-outline-variant/40">Node.js &amp; Express</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container/70 border border-outline-variant/40">Laravel &amp; PHP</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container/70 border border-outline-variant/40">PostgreSQL &amp; MongoDB</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container/70 border border-outline-variant/40">Tailwind CSS</span>
+</div>
+<!-- Call to Actions -->
+<div class="mt-10 flex flex-wrap items-center gap-4">
+<a class="px-7 py-3.5 rounded-full bg-on-surface text-surface-container-lowest font-label-mono text-xs uppercase tracking-wider font-semibold hover:bg-primary transition-all duration-200 shadow-lg hover:shadow-primary/20 flex items-center gap-2 group" href="#work">
+<span class="">Explore Selected Work</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-y-0.5 transition-transform">arrow_downward</span>
+</a>
+<a class="px-7 py-3.5 rounded-full bg-surface-container-high/70 hover:bg-surface-container-highest text-on-surface font-label-mono text-xs uppercase tracking-wider border border-outline-variant/60 transition-all duration-200 flex items-center gap-2" href="#contact">
+<span class="">Get in Touch</span>
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</a>
+</div>
+</div>
+<!-- Right Column: Editorial Hero Portrait Frame -->
+<div class="lg:col-span-5 flex justify-center lg:justify-end">
+<div class="relative w-full max-w-[380px] sm:max-w-[420px] rounded-2xl bg-surface-container/40 p-3 border border-outline-variant/50 shadow-2xl backdrop-blur-sm group">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-black/80 flex items-center justify-center">
+<img alt="Ayman Loussal editorial portrait beside vintage studio monitors" class="w-full h-full object-cover object-top filter contrast-110 brightness-95 group-hover:scale-102 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK-EQa4JRH_2tCePe8HYlBpb3MwsF6-xmZ3r8XMYHG6sUliIq5RHxFTfDb7wJVPYhTHPHpt5aNmVF1w46Mw2lvL0PcR_b4hGuOVG3LSxzqekbBddbkodImP8bM8kXkPr4zZ5Kdk7DqC_sQ_JRUzOw1ko24xoUDE7WBG5EL4vVu-v13aNfpseI5uS_I3IpMb-duaxCOYu2Uihsjp3crww2OdYInNpQ0ZtmcGtWdXkePQhdHyG-jNl0MyVn7RJ9trEQw">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent opacity-80 pointer-events-none"></div>
+<!-- Refined Editorial Lower Label -->
+<div class="absolute bottom-4 inset-x-4 flex items-end justify-between text-left">
+<div>
+<span class="font-label-mono text-[10px] text-tertiary uppercase tracking-widest block">PORTRAIT ARCHIVE</span>
+<span class="font-headline-sm text-lg text-on-surface font-medium uppercase">Ayman Loussal</span>
+<span class="font-body-sm text-xs text-on-surface-variant block">YouCode Fellow • 2025</span>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase tracking-wider px-2 py-0.5 rounded bg-surface-container-low/80 border border-outline-variant/40">MAROC</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 2. ABOUT — PURPOSEFUL NARRATIVE & CRAFT -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30" id="about">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+<!-- Section Tag & Overline -->
+<div class="lg:col-span-4 flex flex-col space-y-4">
+<span class="font-label-mono text-xs text-tertiary tracking-widest uppercase">[01 // ABOUT]</span>
+<h2 class="font-headline-lg text-3xl sm:text-4xl text-on-surface uppercase tracking-tight leading-tight">
+          THE ART OF<br><span class="text-primary">DISCIPLINE.</span>
+</h2>
+<p class="font-body-sm text-on-surface-variant">
+          Bridging technical software engineering, physical presence, and kinetic movement with dedicated conviction.
+        </p>
+</div>
+<!-- Narrative & Background -->
+<div class="lg:col-span-8 flex flex-col space-y-8 text-on-surface-variant font-light text-lg sm:text-xl leading-relaxed">
+<p class="text-on-surface font-normal">
+          I am Ayman Loussal, a full-stack developer based in Safi, Morocco, training at <span class="text-primary font-medium">YouCode</span> (UM6P ecosystem). I build deterministic web applications, lead defensive strategies on the football pitch, and explore editorial modeling before the camera lens.
+        </p>
+<p class="">
+          Rather than keeping these disciplines separate, I find that each strengthens the other: the tactical foresight and split-second decisions demanded by football directly inform my software architecture. The spatial composure and body awareness of parkour sharpen my eye for interaction design and spatial hierarchy.
+        </p>
+<p class="">
+          I prioritize code clarity over cleverness, modularity over dogma, and deliver performant, user-centered digital products designed to endure.
+        </p>
+<!-- Genuine Core Competencies Matrix -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
+<div class="p-6 rounded-2xl bg-surface-container/50 border border-outline-variant/40">
+<span class="font-label-mono text-xs text-primary uppercase block mb-2">FULL-STACK CODE</span>
+<p class="font-body-sm text-sm text-on-surface">Architecting resilient APIs, state synchronization, and clean relational database schemas.</p>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container/50 border border-outline-variant/40">
+<span class="font-label-mono text-xs text-secondary uppercase block mb-2">EDITORIAL MODEL</span>
+<p class="font-body-sm text-sm text-on-surface">Expressive stillness, tailoring, and intense cinematic storytelling across analog and studio formats.</p>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container/50 border border-outline-variant/40">
+<span class="font-label-mono text-xs text-tertiary uppercase block mb-2">ATHLETIC DRIVE</span>
+<p class="font-body-sm text-sm text-on-surface">Match endurance, spatial vision, and relentless commitment learned through coastal parkour and football.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 3. SELECTED WORK — SPACIOUS CASE STUDY PRESENTATION -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30" id="work">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20">
+<div>
+<span class="font-label-mono text-xs text-tertiary tracking-widest uppercase block mb-3">[02 // SELECTED WORK]</span>
+<h2 class="font-headline-xl text-4xl sm:text-5xl lg:text-6xl text-on-surface uppercase tracking-tight">
+          CASE STUDIES &amp; CRAFT.
+        </h2>
+</div>
+<p class="font-body-lg text-on-surface-variant max-w-md">
+        Spacious, genuine projects developed from problem definition to architecture and deployment.
+      </p>
+</div>
+<div class="flex flex-col space-y-16">
+<!-- PROJECT 01: TOOLSHARE -->
+<article class="p-8 sm:p-12 rounded-3xl bg-surface-container/40 border border-outline-variant/50 hover:border-primary/40 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="font-label-mono text-xs uppercase px-2.5 py-1 rounded bg-primary-container/20 text-primary border border-primary/30">Case Study // Full-Stack</span>
+<span class="font-label-mono text-xs text-on-surface-variant">EQUIPMENT RESERVATION ENGINE</span>
+</div>
+<h3 class="font-headline-lg text-3xl sm:text-4xl text-on-surface font-semibold tracking-tight uppercase">
+              TOOLSHARE
+            </h3>
+<p class="font-body-xl text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
+              An industrial and peer equipment reservation system built to eliminate double-booking conflicts. Features optimistic locking, clean reservation schedules, real-time inventory management, and transactional integrity across concurrent user checkouts.
+            </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Node.js</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Express</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">MongoDB</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Tailwind CSS</span>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:items-end">
+<div class="text-left lg:text-right mb-6">
+<span class="font-label-mono text-[11px] text-outline uppercase block">ROLE &amp; FOCUS</span>
+<span class="font-body-sm text-sm text-on-surface block mt-1">Backend Architecture &amp; Data Models</span>
+</div>
+<button class="case-study-trigger px-6 py-3 rounded-full bg-surface-container-high hover:bg-primary hover:text-on-primary font-label-mono text-xs uppercase tracking-wider text-on-surface transition-all flex items-center gap-2 cursor-pointer border border-outline-variant" data-project="toolshare">
+<span class="">Explore Case Study</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</article>
+<!-- PROJECT 02: FTMBALL -->
+<article class="p-8 sm:p-12 rounded-3xl bg-surface-container/40 border border-outline-variant/50 hover:border-secondary/40 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="font-label-mono text-xs uppercase px-2.5 py-1 rounded bg-secondary-container/20 text-secondary border border-secondary/30">Sports-Tech Platform</span>
+<span class="font-label-mono text-xs text-on-surface-variant">TACTICAL CLUB MANAGEMENT</span>
+</div>
+<h3 class="font-headline-lg text-3xl sm:text-4xl text-on-surface font-semibold tracking-tight uppercase">
+              FTMBALL
+            </h3>
+<p class="font-body-xl text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
+              A comprehensive football team management and match intelligence platform. Designed for coaches and analysts to draft dynamic pitch formations, log squad minutes, analyze physical load, and synchronize squad tactics with in-memory caching.
+            </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Laravel</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">PHP</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">MySQL</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Redis</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Tailwind CSS</span>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:items-end">
+<div class="text-left lg:text-right mb-6">
+<span class="font-label-mono text-[11px] text-outline uppercase block">ROLE &amp; FOCUS</span>
+<span class="font-body-sm text-sm text-on-surface block mt-1">Full-Stack Design &amp; Domain Modeling</span>
+</div>
+<button class="case-study-trigger px-6 py-3 rounded-full bg-surface-container-high hover:bg-secondary hover:text-on-secondary font-label-mono text-xs uppercase tracking-wider text-on-surface transition-all flex items-center gap-2 cursor-pointer border border-outline-variant" data-project="ftmball">
+<span class="">Explore Case Study</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</article>
+<!-- PROJECT 03: EPS EDUCATION -->
+<article class="p-8 sm:p-12 rounded-3xl bg-surface-container/40 border border-outline-variant/50 hover:border-tertiary/40 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="font-label-mono text-xs uppercase px-2.5 py-1 rounded bg-tertiary-container/20 text-tertiary border border-tertiary/30">Academic Admissions Portal</span>
+<span class="font-label-mono text-xs text-on-surface-variant">DOCUMENT VERIFICATION WORKFLOWS</span>
+</div>
+<h3 class="font-headline-lg text-3xl sm:text-4xl text-on-surface font-semibold tracking-tight uppercase">
+              EPS EDUCATION
+            </h3>
+<p class="font-body-xl text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
+              Transnational academic dossier intake and consular admissions tracker. Built to streamline applicant onboarding, track multilateral accreditation milestones, and securely store sensitive educational transcripts with relational audit logging.
+            </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Laravel</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Blade</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">PostgreSQL</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Tailwind CSS</span>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:items-end">
+<div class="text-left lg:text-right mb-6">
+<span class="font-label-mono text-[11px] text-outline uppercase block">ROLE &amp; FOCUS</span>
+<span class="font-body-sm text-sm text-on-surface block mt-1">Multi-step Intake Engine &amp; Access Controls</span>
+</div>
+<button class="case-study-trigger px-6 py-3 rounded-full bg-surface-container-high hover:bg-tertiary hover:text-on-tertiary font-label-mono text-xs uppercase tracking-wider text-on-surface transition-all flex items-center gap-2 cursor-pointer border border-outline-variant" data-project="eps">
+<span class="">Explore Case Study</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</article>
+<!-- PROJECT 04: FACTORYFLOW -->
+<article class="p-8 sm:p-12 rounded-3xl bg-surface-container/40 border border-outline-variant/50 hover:border-primary/40 transition-all duration-300">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="font-label-mono text-xs uppercase px-2.5 py-1 rounded bg-primary-container/20 text-primary border border-primary/30">Industrial Operations</span>
+<span class="font-label-mono text-xs text-on-surface-variant">REAL-TIME PRODUCTION DISPATCH</span>
+</div>
+<h3 class="font-headline-lg text-3xl sm:text-4xl text-on-surface font-semibold tracking-tight uppercase">
+              FACTORYFLOW
+            </h3>
+<p class="font-body-xl text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
+              Industrial workflow coordinator and shop-floor monitor. Streamlines production run tracking, automated maintenance alerts, and component lifecycle events through a type-safe modular event pipeline and live WebSocket updates.
+            </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">TypeScript</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">Node.js</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">PostgreSQL</span>
+<span class="font-label-mono text-xs px-3 py-1 rounded-full bg-surface-container-high text-on-surface">WebSockets</span>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:items-end">
+<div class="text-left lg:text-right mb-6">
+<span class="font-label-mono text-[11px] text-outline uppercase block">ROLE &amp; FOCUS</span>
+<span class="font-body-sm text-sm text-on-surface block mt-1">Event Streams &amp; Full-Stack TypeScript</span>
+</div>
+<button class="case-study-trigger px-6 py-3 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container font-label-mono text-xs uppercase tracking-wider text-on-surface transition-all flex items-center gap-2 cursor-pointer border border-outline-variant" data-project="factoryflow">
+<span class="">Explore Case Study</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 4. MODELING — CINEMATIC EDITORIAL GALLERY & FULLSCREEN LIGHTBOX -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30" id="modeling">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+<div>
+<span class="font-label-mono text-xs text-secondary tracking-widest uppercase block mb-3">[03 // MODELING]</span>
+<h2 class="font-headline-xl text-4xl sm:text-5xl lg:text-6xl text-on-surface uppercase tracking-tight">
+          CINEMATIC EDITORIAL GALLERY.
+        </h2>
+</div>
+<p class="font-body-lg text-on-surface-variant max-w-md">
+        High-fashion, studio portraiture, and analog noir campaigns. Bringing quiet composure, structure, and emotional resonance before the lens.
+      </p>
+</div>
+<!-- 4 Natural Curated Looks (Unclipped Framing) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+<!-- LOOK 01: The Burning Manuscript -->
+<div class="editorial-card group relative rounded-3xl bg-surface-container/30 border border-outline-variant/40 p-4 sm:p-5 hover:border-secondary/50 transition-all duration-300 cursor-pointer" data-index="0" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFr2ByWxiTjkKBGRPrCUl63jnDk2mPyfvRISDhHASsCBqA90DR5S4KQ5GG_zXPXy1QmsDLNXiGFRIWQAtIn-kPevXuaUCUJTIzxzSurbmtSKrppe73ir2rYeBr9qYR-nvmSYTpBMdqd6GNExuuRmNXm9BGaoKwcD18t3qoCn8gxZ9vW6xf1Ud62CJSc-1hPyuXQmvBuuC42c3dv0SaxOWv9J8Yw7YvqYz5kOSy-NHGMpXyVje2cNxd" data-subtitle="The Burning Manuscript • 35mm Analog Warm Lighting" data-title="Fire, Smoke &amp; Contemplation">
+<div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal dramatic editorial reading burning book with cigarette" class="w-full h-full object-contain sm:object-cover filter contrast-105 group-hover:scale-103 transition-transform duration-500 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFr2ByWxiTjkKBGRPrCUl63jnDk2mPyfvRISDhHASsCBqA90DR5S4KQ5GG_zXPXy1QmsDLNXiGFRIWQAtIn-kPevXuaUCUJTIzxzSurbmtSKrppe73ir2rYeBr9qYR-nvmSYTpBMdqd6GNExuuRmNXm9BGaoKwcD18t3qoCn8gxZ9vW6xf1Ud62CJSc-1hPyuXQmvBuuC42c3dv0SaxOWv9J8Yw7YvqYz5kOSy-NHGMpXyVje2cNxd">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+<span class="font-label-mono text-xs uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">fullscreen</span> View Full Resolution
+            </span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between px-1">
+<div>
+<h3 class="font-headline-sm text-lg text-on-surface uppercase font-medium">Fire, Smoke &amp; Contemplation</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Atmospheric Chiaroscuro • Safi Studio</p>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase px-2 py-0.5 rounded bg-surface-container">01</span>
+</div>
+</div>
+<!-- LOOK 02: Tailored Suiting -->
+<div class="editorial-card group relative rounded-3xl bg-surface-container/30 border border-outline-variant/40 p-4 sm:p-5 hover:border-secondary/50 transition-all duration-300 cursor-pointer" data-index="1" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMsgeTOSFm3juwUxv26c5mDBg53rY523Wf0N2zrJ_zsnkA9w8pb-DnjKe9ZH1GRlFt_2iaz-YeZgM91xLkDnQVwPG6d7etgNLxPn4pNGMPRCxHUUdEB6gdiuM2Kg73Tf1SR-qm4_1KR8oIBFtX3VQq8UkFZVOJ3YvGGPiPIW0se5pEVQqCdtclX82EHq4rLeU6WxVoSCCN0ehXZEw2WpTwHD3IMhSvRUYjyxZLYxO_U7zjWXOUoPII" data-subtitle="Minimalist Studio Portrait • Tailored Black Blazer" data-title="Monochrome Editorial Suiting">
+<div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal high fashion studio portrait wearing tailored black suit" class="w-full h-full object-contain sm:object-cover filter contrast-105 group-hover:scale-103 transition-transform duration-500 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMsgeTOSFm3juwUxv26c5mDBg53rY523Wf0N2zrJ_zsnkA9w8pb-DnjKe9ZH1GRlFt_2iaz-YeZgM91xLkDnQVwPG6d7etgNLxPn4pNGMPRCxHUUdEB6gdiuM2Kg73Tf1SR-qm4_1KR8oIBFtX3VQq8UkFZVOJ3YvGGPiPIW0se5pEVQqCdtclX82EHq4rLeU6WxVoSCCN0ehXZEw2WpTwHD3IMhSvRUYjyxZLYxO_U7zjWXOUoPII">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+<span class="font-label-mono text-xs uppercase tracking-wider text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">fullscreen</span> View Full Resolution
+            </span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between px-1">
+<div>
+<h3 class="font-headline-sm text-lg text-on-surface uppercase font-medium">Monochrome Editorial Suiting</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Minimalist Studio • High Contrast</p>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase px-2 py-0.5 rounded bg-surface-container">02</span>
+</div>
+</div>
+<!-- LOOK 03: The Midnight Reading -->
+<div class="editorial-card group relative rounded-3xl bg-surface-container/30 border border-outline-variant/40 p-4 sm:p-5 hover:border-secondary/50 transition-all duration-300 cursor-pointer" data-index="2" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRTUXlpZsZ9vT1voDGUTB4psJ8INuLlvaSzGcU6OMbpWHKpsdHmnhZHhWVKqSm0_e0Ip-aGzTLqUyFhPDkv_cyCmbhs0vPEuxiFQamAXX9BAn2Wsr445goSfUJ_p-P2SFoFF4LJ8nE5ANCblnai4dby57S2PMtHAqjTSQReT7vUIH6WyFHgUTWoj_qGZmPA6mlF5_QkEk9kqQyoCC-Hqb3caC-2xnpJmx9p-xBkGrW-o9sR88ce7np" data-subtitle="Atmospheric Amber Mood • Smoke &amp; Solitude" data-title="The Midnight Reading">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal moody atmospheric lighting reading manuscript with smoke" class="w-full h-full object-contain sm:object-cover filter contrast-105 group-hover:scale-103 transition-transform duration-500 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRTUXlpZsZ9vT1voDGUTB4psJ8INuLlvaSzGcU6OMbpWHKpsdHmnhZHhWVKqSm0_e0Ip-aGzTLqUyFhPDkv_cyCmbhs0vPEuxiFQamAXX9BAn2Wsr445goSfUJ_p-P2SFoFF4LJ8nE5ANCblnai4dby57S2PMtHAqjTSQReT7vUIH6WyFHgUTWoj_qGZmPA6mlF5_QkEk9kqQyoCC-Hqb3caC-2xnpJmx9p-xBkGrW-o9sR88ce7np">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+<span class="font-label-mono text-xs uppercase tracking-wider text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">fullscreen</span> View Full Resolution
+            </span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between px-1">
+<div>
+<h3 class="font-headline-sm text-lg text-on-surface uppercase font-medium">The Midnight Reading</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Analog Film Still • Chiaroscuro Texture</p>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase px-2 py-0.5 rounded bg-surface-container">03</span>
+</div>
+</div>
+<!-- LOOK 04: Vintage Broadcast Repose -->
+<div class="editorial-card group relative rounded-3xl bg-surface-container/30 border border-outline-variant/40 p-4 sm:p-5 hover:border-secondary/50 transition-all duration-300 cursor-pointer" data-index="3" data-src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSYVW7O23ji4hWso_5tTr6Fijtgz4gnu4PMuMGzABOmCFwYPdoWHkjjzPOTIxui0liDUU8dH4eNm2GP0lx-eLS-6Wk9F6Y7zYG0Ka2iYF8ZTo0wozYvRknKzDjbqB-dQYIrkC5eL0_ZEnaMzEUeWCHfGDlehN7SldTMQX8Ty31At337M9uRorjEG2NhPLWRqIe4KoGqc80nvUhqID1DfPUOU885waiAGkrmRUlweFtBgUEbyqnHGk8" data-subtitle="Retro CRT Studio Repose • Intense Cinematic Presence" data-title="Vintage Broadcast Repose">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal leaning on vintage CRT monitor intense editorial stare" class="w-full h-full object-contain sm:object-cover filter contrast-105 group-hover:scale-103 transition-transform duration-500 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSYVW7O23ji4hWso_5tTr6Fijtgz4gnu4PMuMGzABOmCFwYPdoWHkjjzPOTIxui0liDUU8dH4eNm2GP0lx-eLS-6Wk9F6Y7zYG0Ka2iYF8ZTo0wozYvRknKzDjbqB-dQYIrkC5eL0_ZEnaMzEUeWCHfGDlehN7SldTMQX8Ty31At337M9uRorjEG2NhPLWRqIe4KoGqc80nvUhqID1DfPUOU885waiAGkrmRUlweFtBgUEbyqnHGk8">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+<span class="font-label-mono text-xs uppercase tracking-wider text-tertiary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">fullscreen</span> View Full Resolution
+            </span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between px-1">
+<div>
+<h3 class="font-headline-sm text-lg text-on-surface uppercase font-medium">Vintage Broadcast Repose</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Atmospheric Portrait • Editorial Archive</p>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase px-2 py-0.5 rounded bg-surface-container">04</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 5. FOOTBALL — DISCIPLINE ON THE PITCH -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30" id="athletics">
+<div class="flex items-center gap-3 mb-6">
+<span class="font-label-mono text-xs text-primary uppercase tracking-widest">[04 // SPORTS IDENTITY]</span>
+<span class="h-px flex-1 bg-outline-variant/40"></span>
+<span class="font-label-mono text-xs text-outline">TACTICAL AWARENESS</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Narrative & Interactive Pitch -->
+<div class="lg:col-span-6 space-y-6">
+<h2 class="font-headline-xl text-3xl sm:text-5xl text-on-surface uppercase tracking-tight leading-[0.95]">
+          FOOTBALL BUILT<br><span class="text-primary">MY DISCIPLINE.</span>
+</h2>
+<p class="font-body-xl text-lg text-on-surface font-light leading-relaxed">
+          The pitch demands full situational awareness: scanning ahead of the ball, holding defensive shape under high press, and executing selfless distribution.
+        </p>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+          In software engineering, distributed systems behave just like a team in transition: communication protocols must be airtight, failovers planned in advance, and individual components synchronized toward a common target.
+        </p>
+<!-- Interactive Tactical Pitch Diagram -->
+<div class="p-6 rounded-2xl bg-surface-container/60 border border-outline-variant/50 space-y-3">
+<div class="flex items-center justify-between text-xs font-label-mono text-on-surface-variant mb-2">
+<span class="">INTERACTIVE TACTICAL FORMATION [4-3-3]</span>
+<span class="text-tertiary">HOVER NODES TO ENGAGE</span>
+</div>
+<!-- SVG Football Pitch -->
+<div class="relative w-full aspect-[2/1] rounded-xl bg-[#0e161f] border border-outline-variant/60 p-2 overflow-hidden flex items-center justify-center">
+<svg class="w-full h-full text-outline-variant/40" id="pitch-svg" viewBox="0 0 600 300">
+<!-- Field Markings -->
+<rect fill="none" height="280" stroke="currentColor" stroke-width="1.5" width="580" x="10" y="10"></rect>
+<line stroke="currentColor" stroke-width="1.5" x1="300" x2="300" y1="10" y2="290"></line>
+<circle cx="300" cy="150" fill="none" r="45" stroke="currentColor" stroke-width="1.5"></circle>
+<!-- Penalty Areas -->
+<rect fill="none" height="130" stroke="currentColor" stroke-width="1.5" width="80" x="10" y="85"></rect>
+<rect fill="none" height="130" stroke="currentColor" stroke-width="1.5" width="80" x="510" y="85"></rect>
+<!-- Dynamic Pass Lines (Rendered on Node Hover via JS) -->
+<g id="pitch-pass-lines" opacity="0.4" stroke="#54d8e8" stroke-dasharray="4 4" stroke-width="1.5">
+<line x1="160" x2="300" y1="80" y2="150"></line>
+<line x1="300" x2="450" y1="150" y2="80"></line>
+<line x1="300" x2="450" y1="150" y2="220"></line>
+</g>
+<!-- Tactical Position Nodes -->
+<!-- GK -->
+<circle class="tactical-node" cx="40" cy="150" data-role="Goalkeeper // Defensive Anchor" fill="#adc6ff" r="7"></circle>
+<!-- Back 4 -->
+<circle class="tactical-node" cx="130" cy="50" data-role="Left Fullback // High Progression" fill="#adc6ff" r="6"></circle>
+<circle class="tactical-node" cx="120" cy="115" data-role="Center Back // Ball Distribution" fill="#adc6ff" r="6.5"></circle>
+<circle class="tactical-node" cx="120" cy="185" data-role="Center Back // Aerial Dominance" fill="#adc6ff" r="6.5"></circle>
+<circle class="tactical-node" cx="130" cy="250" data-role="Right Fullback // Defensive Lock" fill="#adc6ff" r="6"></circle>
+<!-- Midfield 3 -->
+<circle class="tactical-node" cx="240" cy="150" data-role="Pivot Midfielder // Game Tempo (Ayman)" fill="#54d8e8" r="7.5"></circle>
+<circle class="tactical-node" cx="320" cy="95" data-role="Central Mid // Space Creator" fill="#54d8e8" r="6.5"></circle>
+<circle class="tactical-node" cx="320" cy="205" data-role="Box-to-Box // Stamina Engine" fill="#54d8e8" r="6.5"></circle>
+<!-- Front 3 -->
+<circle class="tactical-node" cx="460" cy="65" data-role="Left Winger // Direct Acceleration" fill="#d2bbff" r="6.5"></circle>
+<circle class="tactical-node" cx="490" cy="150" data-role="Center Forward // Clinical Press" fill="#d2bbff" r="7"></circle>
+<circle class="tactical-node" cx="460" cy="235" data-role="Right Winger // Wing Cut &amp; Cross" fill="#d2bbff" r="6.5"></circle>
+</svg>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-mono text-outline pt-1" id="pitch-status">
+<span class="">SELECTED ROLE:</span>
+<span class="text-tertiary font-medium" id="pitch-role-display">Pivot Midfielder // Game Tempo (Ayman)</span>
+</div>
+</div>
+</div>
+<!-- Football Image Presentation (Uncropped Proportions) -->
+<div class="lg:col-span-6 flex justify-center">
+<div class="relative w-full max-w-[480px] rounded-3xl bg-surface-container/30 p-3 sm:p-4 border border-outline-variant/50 shadow-2xl group">
+<div class="relative w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal football player under stadium floodlights" class="w-full h-auto object-contain filter contrast-110 group-hover:scale-102 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgQtNefR3ip7blpt5wVwf_RTsDSn9UYjSvgq-z6yQKrNz5Fe1hBwMEtuuyA5yA5IlcujQ-PPa-fo6JQ2pVwtiWSbcHBy-ZBKe-YpLdQ8EBXLQnzO1qTbf1RIPWn2dbiYEne7V3CCIISjm3jQztdRzIGGA7ZWuYTgKGzfjd8nd9KTSJnC6JOkn3ObiXLt8OGfvQ3KBWC6ipnzhgRlWOPMHn0INstPyLya87_CkC4uQhAvN62dTDHiQgeBdBzI3gGSaX">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+<div class="absolute bottom-5 inset-x-5 flex items-end justify-between">
+<div>
+<span class="font-label-mono text-[10px] text-primary uppercase tracking-widest block">MATCH CONCENTRATION</span>
+<span class="font-headline-sm text-lg text-on-surface uppercase font-medium">Olympic Safi Pitch Legacy</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[26px]">sports_soccer</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 6. PARKOUR — MOVEMENT. CONTROL. FREEDOM. -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30">
+<div class="flex items-center gap-3 mb-6">
+<span class="font-label-mono text-xs text-amber-300 uppercase tracking-widest">[05 // KINETIC MOVEMENT]</span>
+<span class="h-px flex-1 bg-outline-variant/40"></span>
+<span class="font-label-mono text-xs text-outline">ATLANTIC COASTAL SAFI</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Coastal Backflip Image Presentation (Authentic Natural Framing) -->
+<div class="lg:col-span-7 flex justify-center order-2 lg:order-1">
+<div class="relative w-full rounded-3xl bg-surface-container/30 p-3 sm:p-4 border border-outline-variant/50 shadow-2xl group">
+<div class="relative w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="Ayman Loussal performing coastal beach backflip in Safi Morocco" class="w-full h-auto max-h-[700px] object-contain filter contrast-110 group-hover:scale-102 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt7E9xIcbeV-mdXkRSPQccIBkWcDeZqpp8oARUU7DMoeXAroqD7OvrRdHfafILI8vS8mRyP2TI4bIqJhDIZAIuUtS2LT5MMHA7ny3yo9gk3626bANMoupDV-bX7ZK8bCcMlz3T24nKC3OBK2HJFbM3j4M336DnD7aQ_GdRyTL_eMiAbCREXgpz4jCJPgHcZYvCdBadaGpi5wQ8KOj5iPCZKcQgBWebfpM6m4iqPINNYIMytI12km3k">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+<div class="absolute top-4 left-4 z-20 font-label-mono text-xs text-amber-300 bg-surface-container-lowest/80 backdrop-blur px-3 py-1 rounded-full border border-amber-400/40">
+              ATLANTIC TWILIGHT FLIGHT
+            </div>
+<div class="absolute bottom-5 inset-x-5 flex items-end justify-between">
+<div>
+<span class="font-label-mono text-[10px] text-amber-300 uppercase tracking-widest block">MOMENTUM OVER FRICTION</span>
+<span class="font-headline-sm text-lg text-on-surface uppercase font-medium">Safi Coastline, Morocco</span>
+</div>
+<span class="font-label-mono text-[11px] text-on-surface-variant">AIRBORNE 0.8s</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Narrative & Spatial Philosophy -->
+<div class="lg:col-span-5 space-y-6 order-1 lg:order-2">
+<h2 class="font-headline-xl text-3xl sm:text-5xl text-on-surface uppercase tracking-tight leading-[0.95]">
+          MOVEMENT.<br>CONTROL.<br><span class="text-amber-300">FREEDOM.</span>
+</h2>
+<p class="font-body-xl text-lg text-on-surface font-light leading-relaxed">
+          Parkour dissolves hesitation. Physical barriers become launchpads; gravity becomes a rhythm to negotiate and master.
+        </p>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+          Training on the sea walls and sand dunes of Safi shaped my fearlessness when tackling complex, unfamiliar technical stacks. When an architectural roadblock presents itself, you do not freeze—you recalculate trajectory, commit fully, and stick the landing.
+        </p>
+<div class="p-6 rounded-2xl bg-surface-container/50 border border-outline-variant/40 space-y-2">
+<div class="font-label-mono text-xs text-amber-300 uppercase">PHILOSOPHY IN PRACTICE</div>
+<p class="font-body-sm text-sm text-on-surface">
+            Zero hesitation once committed. Precision landings over reckless speed. Every technical hurdle is just another ledge to clear.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 7. CONTACT & FOOTER — LET'S BUILD SOMETHING REMARKABLE -->
+<!-- ========================================================================= -->
+<section class="relative w-full py-28 px-6 lg:px-12 max-w-7xl mx-auto border-t border-outline-variant/30" id="contact">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+<!-- Left Column: Inquiry & Tone -->
+<div class="lg:col-span-7 flex flex-col justify-between space-y-8">
+<div>
+<span class="font-label-mono text-xs text-tertiary tracking-widest uppercase block mb-4">[06 // GET IN TOUCH]</span>
+<h2 class="font-headline-xl text-4xl sm:text-6xl text-on-surface uppercase tracking-tight leading-[0.9]">
+            LET'S BUILD<br>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-on-surface via-primary to-secondary">SOMETHING</span><br>
+            REMARKABLE.
+          </h2>
+<p class="font-body-xl text-lg text-on-surface-variant mt-6 max-w-xl leading-relaxed font-light">
+            Whether you are building a ambitious web platform, organizing an editorial modeling shoot, or exploring collaborative ideas, my inbox is open.
+          </p>
+</div>
+<!-- Download CV Button -->
+<div class="pt-4">
+<button class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-mono text-xs uppercase tracking-wider border border-outline-variant transition-all duration-200 cursor-pointer shadow-md group" id="download-cv-btn">
+<span class="material-symbols-outlined text-primary text-[20px] group-hover:-translate-y-0.5 transition-transform">description</span>
+<span class="">Download Curriculum Vitae [PDF]</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Direct Channels & Links -->
+<div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+<div class="p-8 rounded-3xl bg-surface-container/40 border border-outline-variant/50 space-y-6">
+<span class="font-label-mono text-xs text-on-surface-variant uppercase tracking-widest block">DIRECT CONDUIT</span>
+<!-- Email Copy Unit -->
+<div class="space-y-2">
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/40">
+<span class="font-label-mono text-xs sm:text-sm text-on-surface tracking-tight" id="copy-email-target">ayman.loussal@gmail.com</span>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary font-label-mono text-xs text-on-surface tracking-wider transition-colors cursor-pointer border border-outline-variant" id="copy-email-btn" type="button">
+                COPY
+              </button>
+</div>
+<p class="text-xs font-label-mono text-tertiary hidden pl-2" id="copy-feedback-toast">
+              ✓ Email copied to clipboard!
+            </p>
+</div>
+<!-- Real Social & Professional Links -->
+<div class="pt-4 border-t border-outline-variant/30 space-y-3">
+<a class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors border border-outline-variant/30 group" href="https://github.com/aymanloussal" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-3">
+<span class="font-label-mono text-xs text-outline">GH //</span>
+<span class="font-body-md text-sm text-on-surface">github.com/aymanloussal</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-primary transition-colors">north_east</span>
+</a>
+<a class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors border border-outline-variant/30 group" href="https://linkedin.com/in/aymanloussal" rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-3">
+<span class="font-label-mono text-xs text-outline">IN //</span>
+<span class="font-body-md text-sm text-on-surface">linkedin.com/in/aymanloussal</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-secondary transition-colors">north_east</span>
+</a>
+</div>
+<!-- Status Indicator -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex items-center gap-3">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-label-mono text-xs text-on-surface font-medium">AVAILABLE FOR COMMISSIONS</span>
+<span class="font-label-mono text-[10px] text-outline">Full-stack roles &amp; editorial shoot inquiries</span>
+</div>
+</div>
+</div>
+<div class="pt-4 flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-lg text-on-surface uppercase font-semibold">AYMAN LOUSSAL</span>
+<span class="font-label-mono text-xs text-on-surface-variant block">YouCode • Safi, Morocco</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center font-headline-sm text-sm font-bold text-primary">
+            AL
+          </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER STRIP -->
+<footer class="relative z-10 w-full bg-[#0c0c0e] border-t border-outline-variant/30 py-10">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="font-label-mono text-xs text-outline">LOC: 32.2994° N, 9.2372° W // SAFI, MAROC</span>
+</div>
+<span class="font-label-mono text-xs text-on-surface-variant">© 2025 AYMAN LOUSSAL • CRAFTED WITH PURPOSE</span>
+</div>
+</footer>
+<!-- ========================================================================= -->
+<!-- CASE STUDY INTERACTIVE MODAL -->
+<!-- ========================================================================= -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6" id="case-study-modal" role="dialog">
+<div class="modal-backdrop absolute inset-0 bg-black/85" id="case-study-backdrop"></div>
+<div class="relative w-full max-w-3xl rounded-3xl bg-[#131317] border border-outline-variant/80 p-6 sm:p-10 shadow-2xl max-h-[90vh] overflow-y-auto z-10">
+<div class="flex items-start justify-between pb-6 border-b border-outline-variant/40">
+<div>
+<span class="font-label-mono text-xs text-primary uppercase tracking-widest block" id="modal-tag">CASE STUDY</span>
+<h3 class="font-headline-lg text-2xl sm:text-3xl text-on-surface uppercase font-semibold mt-1" id="modal-title">Project Title</h3>
+</div>
+<button aria-label="Close modal" class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" id="modal-close-btn">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<div class="py-6 space-y-6">
+<div>
+<h4 class="font-label-mono text-xs text-outline uppercase tracking-wider mb-2">Problem Statement &amp; Context</h4>
+<p class="font-body-lg text-on-surface-variant leading-relaxed" id="modal-problem"></p>
+</div>
+<div>
+<h4 class="font-label-mono text-xs text-outline uppercase tracking-wider mb-2">Architectural Overview</h4>
+<p class="font-body-lg text-on-surface-variant leading-relaxed" id="modal-architecture"></p>
+</div>
+<div>
+<h4 class="font-label-mono text-xs text-outline uppercase tracking-wider mb-2">Key Implementation Highlights</h4>
+<ul class="list-disc list-inside space-y-1.5 font-body-sm text-on-surface" id="modal-features"></ul>
+</div>
+<div>
+<h4 class="font-label-mono text-xs text-outline uppercase tracking-wider mb-2">Technology Stack</h4>
+<div class="flex flex-wrap gap-2 pt-1" id="modal-tech"></div>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/40 flex justify-end">
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-mono text-xs uppercase tracking-wider transition-colors cursor-pointer" id="modal-dismiss-btn">
+        CLOSE CASE STUDY
+      </button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- EDITORIAL LIGHTBOX MODAL -->
+<!-- ========================================================================= -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" id="lightbox-modal" role="dialog">
+<div class="modal-backdrop absolute inset-0 bg-black/95" id="lightbox-backdrop"></div>
+<!-- Lightbox Navigation Controls -->
+<button aria-label="Previous look" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-surface-container/60 hover:bg-surface-container text-on-surface transition-colors cursor-pointer" id="lightbox-prev-btn">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<button aria-label="Next look" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-surface-container/60 hover:bg-surface-container text-on-surface transition-colors cursor-pointer" id="lightbox-next-btn">
+<span class="material-symbols-outlined text-2xl">arrow_forward</span>
+</button>
+<button aria-label="Close lightbox" class="absolute top-6 right-6 z-20 p-2.5 rounded-full bg-surface-container/60 hover:bg-surface-container text-on-surface transition-colors cursor-pointer" id="lightbox-close-btn">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+<!-- Lightbox Content Container -->
+<div class="relative z-10 flex flex-col items-center max-w-5xl max-h-[92vh] w-full">
+<div class="relative max-h-[78vh] flex items-center justify-center overflow-hidden rounded-xl">
+<img alt="High resolution editorial photograph" class="max-h-[78vh] max-w-full object-contain rounded-xl shadow-2xl" id="lightbox-img" src="">
+</div>
+<div class="mt-4 text-center">
+<h4 class="font-headline-sm text-lg text-on-surface uppercase font-medium" id="lightbox-title">Look Title</h4>
+<p class="font-label-mono text-xs text-on-surface-variant mt-0.5" id="lightbox-subtitle">Look Subtitle</p>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT: THREE.JS 3D SCULPTURE, WEB AUDIO SYNTH, MODALS & INTERACTION -->
+<!-- ========================================================================= -->
+<script>
+  (function () {
+    // -------------------------------------------------------------
+    // 1. EMBEDDED THREE.JS KINETIC METALLIC SCULPTURE (ANIMATION_20)
+    // -------------------------------------------------------------
+    const container = document.getElementById('threejs-container');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // The CSS sculpture stays visible if Three.js fails to load or WebGL is blocked.
+    if (container && window.THREE && !reduceMotion) {
+      try {
+        const scene = new THREE.Scene();
+        const bounds = () => ({ width: Math.max(1, container.clientWidth), height: Math.max(1, container.clientHeight) });
+        let {width, height} = bounds();
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+        camera.position.set(0, 0, 17);
+        const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true, powerPreference: 'high-performance'});
+        renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+        renderer.setSize(width, height);
+        renderer.setClearColor(0x000000, 0);
+        renderer.domElement.setAttribute('aria-hidden', 'true');
+        renderer.domElement.style.cssText = 'display:block;width:100%;height:100%;';
+        container.appendChild(renderer.domElement);
+        const group = new THREE.Group();
+        // Offset towards the right so the sculpture does not obscure the heading.
+        group.position.x = width > 850 ? 2.6 : 0;
+        scene.add(group);
+        scene.add(new THREE.AmbientLight(0xc8d8ff, 0.95));
+        const blue = new THREE.PointLight(0x3b82f6, 4.5, 45);
+        blue.position.set(5, 7, 10); scene.add(blue);
+        const purple = new THREE.PointLight(0xa78bfa, 3, 45);
+        purple.position.set(-6, -5, 8); scene.add(purple);
+        const materials = [
+          new THREE.MeshStandardMaterial({color: 0x93c5fd, metalness: 0.75, roughness: 0.23, emissive: 0x153673, emissiveIntensity: 0.28}),
+          new THREE.MeshStandardMaterial({color: 0xb8a0fa, metalness: 0.7, roughness: 0.25, emissive: 0x241343, emissiveIntensity: 0.24}),
+          new THREE.MeshStandardMaterial({color: 0x38bdf8, metalness: 0.7, roughness: 0.2, emissive: 0x08395c, emissiveIntensity: 0.34})
+        ];
+        const rings = [4.3, 3.25, 2.25].map((r, i) => {
+          const mesh = new THREE.Mesh(new THREE.TorusGeometry(r, i === 0 ? 0.18 : 0.13, 18, 96), materials[i]);
+          mesh.rotation.set((i+1)*0.4, i * 0.55, i * 0.2);
+          group.add(mesh); return mesh;
+        });
+        const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.95, 1), materials[2]);
+        group.add(core);
+        const positions = new Float32Array(75 * 3);
+        for (let i=0; i<positions.length; i+=3) {
+          positions[i]=(Math.random()-0.5)*15;
+          positions[i+1]=(Math.random()-0.5)*11;
+          positions[i+2]=(Math.random()-0.5)*8;
+        }
+        const pointsGeometry = new THREE.BufferGeometry();
+        pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const points = new THREE.Points(pointsGeometry,new THREE.PointsMaterial({color:0xaad7ff,size:0.085,opacity:0.7,transparent:true}));
+        scene.add(points);
+        // Successful WebGL setup: discard the fallback only now.
+        container.querySelector('.three-fallback')?.remove();
+        let pointerX=0, pointerY=0, frame=0, active=true;
+        const onPointer=(e)=>{pointerX=(e.clientX/window.innerWidth-0.5)*0.55;pointerY=(e.clientY/window.innerHeight-0.5)*0.4;};
+        window.addEventListener('pointermove',onPointer,{passive:true});
+        const visibility = new IntersectionObserver(([entry])=>{active=entry.isIntersecting;if(active && !frame) frame=requestAnimationFrame(tick);},{threshold:0.01});
+        visibility.observe(container);
+        const timer = new THREE.Clock();
+        function tick(){
+          frame=0;
+          if (!active || document.hidden) return;
+          const t=timer.getElapsedTime();
+          rings[0].rotation.y=t*0.22+pointerX;
+          rings[0].rotation.z=t*0.11;
+          rings[1].rotation.x=t*-0.19+pointerY+0.6;
+          rings[1].rotation.z=t*-0.18;
+          rings[2].rotation.y=t*0.3+pointerX;
+          rings[2].rotation.x=t*0.19+pointerY;
+          core.rotation.y=t*0.28;
+          core.rotation.x=t*0.19;
+          group.position.y=Math.sin(t*0.7)*0.22;
+          group.rotation.y=pointerX*0.35;
+          renderer.render(scene,camera);
+          frame=requestAnimationFrame(tick);
+        }
+        document.addEventListener('visibilitychange',()=>{if(!document.hidden && active && !frame)frame=requestAnimationFrame(tick);});
+        window.addEventListener('resize',()=>{
+          const size=bounds(); camera.aspect=size.width/size.height; camera.updateProjectionMatrix();
+          renderer.setSize(size.width,size.height);
+          group.position.x=size.width>850?2.6:0;
+        },{passive:true});
+        tick();
+      } catch(err) {
+        console.warn('3D animation unavailable; displaying CSS fallback:',err);
+        container.querySelector('canvas')?.remove();
+      }
+    } else if (!window.THREE) {
+      console.warn('Three.js failed to load. The animated CSS fallback is active.');
+    }
+
+    // Lightweight entrance/scroll reveals; no additional library required.
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      const targets = document.querySelectorAll('main section h2, main section article, .editorial-card');
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
+        });
+      }, {threshold:0.08, rootMargin:'0px 0px -20px 0px'});
+      targets.forEach((el) => {el.classList.add('reveal-on-scroll'); revealObserver.observe(el);});
+    }
+
+    // -------------------------------------------------------------
+    // 2. SUBTLE WEB AUDIO SYNTHESIZER (ZERO DEPENDENCY)
+    // -------------------------------------------------------------
+    let audioCtx = null;
+    let isSoundOn = false;
+    const soundToggle = document.getElementById('sound-toggle-btn');
+    const soundText = document.getElementById('sound-status-text');
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playSoftClick() {
+      if (!isSoundOn || !audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(280, now + 0.04);
+
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    }
+
+    function playModalChord() {
+      if (!isSoundOn || !audioCtx) return;
+      const now = audioCtx.currentTime;
+      const freqs = [220, 277.18, 329.63]; // A minor chord
+      freqs.forEach((f) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, now);
+        gain.gain.setValueAtTime(0.02, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.65);
+      });
+    }
+
+    if (soundToggle) {
+      soundToggle.addEventListener('click', () => {
+        initAudio();
+        isSoundOn = !isSoundOn;
+        if (isSoundOn) {
+          soundText.textContent = 'SOUND: ON';
+          soundText.classList.add('text-primary');
+          playModalChord();
+        } else {
+          soundText.textContent = 'SOUND: OFF';
+          soundText.classList.remove('text-primary');
+        }
+      });
+    }
+
+    document.querySelectorAll('a, button').forEach((el) => {
+      el.addEventListener('click', () => playSoftClick());
+    });
+
+    // -------------------------------------------------------------
+    // 3. CASE STUDY MODAL LOGIC & GENUINE DATA
+    // -------------------------------------------------------------
+    const caseStudyData = {
+      toolshare: {
+        tag: 'CASE STUDY // FULL-STACK',
+        title: 'TOOLSHARE',
+        problem: 'Local equipment owners and workshop builders lacked a reliable, deterministic way to reserve and share industrial-grade tools without scheduling conflicts, duplicate checkouts, or damaged inventory ambiguities.',
+        architecture: 'Built on a modular Node.js/Express RESTful backend with MongoDB. Utilizes atomic booking operations with optimistic document versioning to prevent simultaneous reservations. Features a clean separation between inventory management, user auth, and transactional booking controllers.',
+        features: [
+          'Deterministic schedule locking preventing simultaneous reservation overlap.',
+          'Granular item condition audit reports upon checkout and returns.',
+          'Responsive, rapid client interface styled with Tailwind CSS utility modules.',
+          'Containerized deployment pipelines ready for scalable cloud hosting.'
+        ],
+        tech: ['Node.js', 'Express', 'MongoDB', 'Mongoose', 'Tailwind CSS', 'Docker', 'REST API']
+      },
+      ftmball: {
+        tag: 'SPORTS-TECH PLATFORM',
+        title: 'FTMBALL',
+        problem: 'Grassroots football academies and amateur clubs struggle with fragmented tools for tactical coaching, squad availability tracking, and real-time game strategy adjustments.',
+        architecture: 'Developed with Laravel and PHP featuring an Eloquent ORM relational schema on MySQL, paired with Redis caching for ultra-low latency tactical board synchronization. Coaches can draft pitch formations and distribute match lineups seamlessly.',
+        features: [
+          'Dynamic interactive pitch board for tactical formation setups (4-3-3, 4-2-3-1, 3-5-2).',
+          'Squad match fitness tracking and automated substitution suggestions.',
+          'In-memory Redis caching ensuring near-instantaneous tactical board updates.',
+          'Modular role permissions for managers, technical staff, and squad members.'
+        ],
+        tech: ['Laravel', 'PHP', 'MySQL', 'Redis', 'Tailwind CSS', 'Alpine.js', 'Git']
+      },
+      eps: {
+        tag: 'ACADEMIC ADMISSIONS PORTAL',
+        title: 'EPS EDUCATION',
+        problem: 'International higher-education applicants frequently confront disjointed email pipelines, lost transcript documentation, and delayed consular verification stages during transnational admissions.',
+        architecture: 'Engineered as an enterprise-grade admissions hub in Laravel and Blade with PostgreSQL. Implements structured document validation pipelines, state-machine applicant milestones, and role-based staff reviews.',
+        features: [
+          'Multi-stage application intake workflows with verifiable document checklists.',
+          'Consular and university accreditation verification status monitors.',
+          'Relational audit logging capturing every file review and decision timestamp.',
+          'Automated email notifications triggered on dossier milestone updates.'
+        ],
+        tech: ['Laravel', 'PHP', 'PostgreSQL', 'Blade Templates', 'Tailwind CSS', 'Docker']
+      },
+      factoryflow: {
+        tag: 'INDUSTRIAL WORKFLOW & MONITORING',
+        title: 'FACTORYFLOW',
+        problem: 'Modern assembly operations require continuous shop-floor event coordination to prevent manufacturing bottlenecks, log machinery maintenance intervals, and track production quotas without latency.',
+        architecture: 'Engineered using full-stack TypeScript and Node.js. Employs a decoupled event coordinator with WebSockets for instantaneous telemetry push to supervisor boards and PostgreSQL for historical run persistence.',
+        features: [
+          'Full-duplex WebSocket stream feeding assembly line status directly to dashboards.',
+          'Predictive machinery maintenance alert dispatches based on operating cycles.',
+          'Strict TypeScript type-safety across both client events and backend domain logic.',
+          'Comprehensive relational logging with indexed query efficiency.'
+        ],
+        tech: ['TypeScript', 'Node.js', 'WebSockets', 'PostgreSQL', 'Express', 'Tailwind CSS']
+      }
+    };
+
+    const modal = document.getElementById('case-study-modal');
+    const modalBackdrop = document.getElementById('case-study-backdrop');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalDismissBtn = document.getElementById('modal-dismiss-btn');
+    const modalTag = document.getElementById('modal-tag');
+    const modalTitle = document.getElementById('modal-title');
+    const modalProblem = document.getElementById('modal-problem');
+    const modalArchitecture = document.getElementById('modal-architecture');
+    const modalFeatures = document.getElementById('modal-features');
+    const modalTech = document.getElementById('modal-tech');
+
+    function openModal(key) {
+      const data = caseStudyData[key];
+      if (!data) return;
+      modalTag.textContent = data.tag;
+      modalTitle.textContent = data.title;
+      modalProblem.textContent = data.problem;
+      modalArchitecture.textContent = data.architecture;
+
+      modalFeatures.innerHTML = '';
+      data.features.forEach((feat) => {
+        const li = document.createElement('li');
+        li.textContent = feat;
+        modalFeatures.appendChild(li);
+      });
+
+      modalTech.innerHTML = '';
+      data.tech.forEach((t) => {
+        const span = document.createElement('span');
+        span.className = 'font-label-mono text-xs px-2.5 py-1 rounded bg-surface-container border border-outline-variant/50 text-on-surface';
+        span.textContent = t;
+        modalTech.appendChild(span);
+      });
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      playModalChord();
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.case-study-trigger').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-project');
+        openModal(key);
+      });
+    });
+
+    [modalBackdrop, modalCloseBtn, modalDismissBtn].forEach((el) => {
+      if (el) el.addEventListener('click', closeModal);
+    });
+
+    // -------------------------------------------------------------
+    // 4. MODELING GALLERY LIGHTBOX LOGIC
+    // -------------------------------------------------------------
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+    const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+    const lightboxPrevBtn = document.getElementById('lightbox-prev-btn');
+    const lightboxNextBtn = document.getElementById('lightbox-next-btn');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxSubtitle = document.getElementById('lightbox-subtitle');
+
+    const editorialCards = Array.from(document.querySelectorAll('.editorial-card'));
+    let currentLightboxIndex = 0;
+
+    function showLightbox(index) {
+      if (index < 0) index = editorialCards.length - 1;
+      if (index >= editorialCards.length) index = 0;
+      currentLightboxIndex = index;
+
+      const card = editorialCards[index];
+      const src = card.getAttribute('data-src');
+      const title = card.getAttribute('data-title');
+      const subtitle = card.getAttribute('data-subtitle');
+
+      lightboxImg.src = src;
+      lightboxTitle.innerHTML = title;
+      lightboxSubtitle.innerHTML = subtitle;
+
+      lightboxModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      playSoftClick();
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    editorialCards.forEach((card, idx) => {
+      card.addEventListener('click', () => showLightbox(idx));
+    });
+
+    if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
+    if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
+    if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', () => showLightbox(currentLightboxIndex - 1));
+    if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', () => showLightbox(currentLightboxIndex + 1));
+
+    // Keyboard controls for modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeLightbox();
+      }
+      if (!lightboxModal.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') showLightbox(currentLightboxIndex - 1);
+        if (e.key === 'ArrowRight') showLightbox(currentLightboxIndex + 1);
+      }
+    });
+
+    // -------------------------------------------------------------
+    // 5. INTERACTIVE FOOTBALL TACTICAL PITCH
+    // -------------------------------------------------------------
+    const pitchNodes = document.querySelectorAll('.tactical-node');
+    const pitchRoleDisplay = document.getElementById('pitch-role-display');
+    const passLines = document.getElementById('pitch-pass-lines');
+
+    pitchNodes.forEach((node) => {
+      node.addEventListener('mouseenter', () => {
+        const role = node.getAttribute('data-role');
+        if (pitchRoleDisplay && role) {
+          pitchRoleDisplay.textContent = role;
+        }
+        if (passLines) {
+          passLines.setAttribute('opacity', '0.85');
+        }
+        playSoftClick();
+      });
+
+      node.addEventListener('mouseleave', () => {
+        if (pitchRoleDisplay) {
+          pitchRoleDisplay.textContent = 'Pivot Midfielder // Game Tempo (Ayman)';
+        }
+        if (passLines) {
+          passLines.setAttribute('opacity', '0.4');
+        }
+      });
+    });
+
+    // -------------------------------------------------------------
+    // 6. CLIPBOARD EMAIL COPY WITH ACCESSIBLE FEEDBACK
+    // -------------------------------------------------------------
+    const copyBtn = document.getElementById('copy-email-btn');
+    const copyTarget = document.getElementById('copy-email-target');
+    const copyToast = document.getElementById('copy-feedback-toast');
+
+    if (copyBtn && copyTarget && copyToast) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(copyTarget.textContent.trim());
+          copyToast.classList.remove('hidden');
+          copyBtn.textContent = 'COPIED';
+          copyBtn.classList.add('bg-primary', 'text-on-primary');
+          setTimeout(() => {
+            copyToast.classList.add('hidden');
+            copyBtn.textContent = 'COPY';
+            copyBtn.classList.remove('bg-primary', 'text-on-primary');
+          }, 3000);
+        } catch (err) {
+          copyToast.textContent = 'Copy failed. Email: ' + copyTarget.textContent;
+          copyToast.classList.remove('hidden');
+        }
+      });
+    }
+
+    // Download CV feedback
+    const downloadCvBtn = document.getElementById('download-cv-btn');
+    if (downloadCvBtn) {
+      downloadCvBtn.addEventListener('click', () => {
+        alert('The CV PDF has not been added yet. Place ayman-loussal-cv.pdf next to index.html, then link this button to it.');
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 7. RESPONSIVE MOBILE NAVIGATION
+    // -------------------------------------------------------------
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const mobileDrawer = document.getElementById('mobile-menu-drawer');
+    if (mobileToggle && mobileDrawer) {
+      mobileToggle.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('hidden');
+      });
+
+      document.querySelectorAll('.mobile-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileDrawer.classList.add('hidden');
+        });
+      });
+    }
+  })();
+</script>
+
+
+</body></html>
