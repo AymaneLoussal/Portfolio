@@ -4,6 +4,12 @@ A local, static portfolio built around three identities: **Development / Modelin
 
 ## Run and edit
 
+### Deploy with Vercel
+
+[vercel.json](vercel.json) sets the framework to **Other**, generates the page, and exports runtime files into **dist**. Import this repository in Vercel with the root directory set to the folder containing package.json and vercel.json. Remove conflicting dashboard build overrides, then redeploy the updated commit. No start command or environment variables are required.
+
+To reproduce the deployment build locally, run `npm.cmd run build` followed by `node scripts/export.mjs`. The [export script](scripts/export.mjs) copies only index.html, favicon.svg, src/, and assets/; backups and development files are excluded. The generated dist/ folder also works for manual static uploads.
+
 ```powershell
 node scripts/serve.mjs
 # Open http://127.0.0.1:4173
