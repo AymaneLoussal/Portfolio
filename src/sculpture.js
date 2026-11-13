@@ -43,7 +43,7 @@
       ring.scale.setScalar(1-i*.14);
       sculpture.add(ring);return ring;
     });
-    let visible=true, time=0, last=0, x=0,y=0,tx=0,ty=0,scroll=0,dragging=false,dragX=0,dragY=0,rotationX=0,rotationY=0;
+    let visible=true, time=0, last=0, x=0,y=0,tx=0,ty=0,scroll=0,targetScroll=0,dragging=false,dragX=0,dragY=0,rotationX=0,rotationY=0;
     const render=()=>{
       rings[0].rotation.set(.55+Math.sin(time*.15)*.1,.4+time*.05,.5);
       rings[1].rotation.set(1.5,-.8+time*.04,-.4);
@@ -59,8 +59,9 @@
     function tick(now){
       frame=0;
       if(disposed || contextLost || !visible || document.hidden || motion.matches)return;
-      time+=Math.min((now-(last||now))/1000,.05);last=now;
-      x+=(tx-x)*.045;y+=(ty-y)*.045;
+      const delta=Math.min((now-(last||now))/1000,.05);time+=delta;last=now;
+      const ease=1-Math.exp(-2.76*delta);x+=(tx-x)*ease;y+=(ty-y)*ease;
+      scroll+=(targetScroll-scroll)*(1-Math.exp(-8*delta));
       render();frame=requestAnimationFrame(tick);
     }
     function sync(){
@@ -69,14 +70,14 @@
       if(motion.matches){x=y=0;render();}
       else if(visible&&!document.hidden)frame=requestAnimationFrame(tick);
     }
-    function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h||contextLost)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);render();}
+    function resize(){targetScroll=Math.max(0,Math.min(scrollY/innerHeight,1));renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.4:1.75));const w=host.clientWidth,h=host.clientHeight;if(!w||!h||contextLost)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);render();}
     resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);resize();
     observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();});observer.observe(host);
-    host.addEventListener('pointermove',e=>{const r=host.getBoundingClientRect();tx=(e.clientX-r.left)/r.width-.5;ty=(e.clientY-r.top)/r.height-.5;if(dragging&&!motion.matches){rotationX+=(e.clientX-dragX)*.008;rotationY+=(e.clientY-dragY)*.008;dragX=e.clientX;dragY=e.clientY;}},{passive:true,signal:events.signal});
+    host.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||motion.matches)return;const r=host.getBoundingClientRect();tx=(e.clientX-r.left)/r.width-.5;ty=(e.clientY-r.top)/r.height-.5;if(dragging&&!motion.matches){rotationX+=(e.clientX-dragX)*.008;rotationY+=(e.clientY-dragY)*.008;dragX=e.clientX;dragY=e.clientY;}},{passive:true,signal:events.signal});
     host.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||motion.matches)return;dragging=true;dragX=e.clientX;dragY=e.clientY;host.setPointerCapture(e.pointerId);},{signal:events.signal});
     ['pointerup','pointercancel','lostpointercapture'].forEach(name=>host.addEventListener(name,()=>dragging=false,{signal:events.signal}));
     host.addEventListener('pointerleave',()=>{tx=ty=0;},{signal:events.signal});
-    window.addEventListener('scroll',()=>{scroll=Math.min(scrollY/innerHeight,1);},{passive:true,signal:events.signal});
+    window.addEventListener('scroll',()=>{targetScroll=Math.max(0,Math.min(scrollY/innerHeight,1));},{passive:true,signal:events.signal});
     document.addEventListener('visibilitychange',sync,{signal:events.signal});
     motion.addEventListener('change',sync,{signal:events.signal});
     renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;host.classList.remove('webgl-ready');cancelAnimationFrame(frame);frame=0;},{signal:events.signal});

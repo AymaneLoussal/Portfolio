@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "1024px: all sections, overflow, rail/focus or mobile targets passed",
+    "1280px: all sections, overflow, rail/focus or mobile targets passed",
+    "1440px: all sections, overflow, rail/focus or mobile targets passed",
+    "1920px: all sections, overflow, rail/focus or mobile targets passed",
+    "320px: all sections, overflow, rail/focus or mobile targets passed",
+    "390px: all sections, overflow, rail/focus or mobile targets passed",
+    "430px: all sections, overflow, rail/focus or mobile targets passed",
+    "512px: all sections, overflow, rail/focus or mobile targets passed",
+    "640px: all sections, overflow, rail/focus or mobile targets passed",
+    "720px: all sections, overflow, rail/focus or mobile targets passed",
+    "960px: all sections, overflow, rail/focus or mobile targets passed"
+  ],
+  "zoom": "200% reflow equivalent CSS viewports: 512,640,720,960; not browser chrome zoom"
+}

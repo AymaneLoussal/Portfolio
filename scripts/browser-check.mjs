@@ -1,4 +1,4 @@
-import {chromium} from '@playwright/test';
+﻿import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 await mkdir('qa',{recursive:true});
@@ -8,12 +8,12 @@ const page=await context.newPage();
 const errors=[],failedRequests=[],checks=[],httpErrors=[],consoleErrors=[];
 page.on('response',r=>{if(r.status()>=400)httpErrors.push({url:r.url(),status:r.status()});});
 page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('net::ERR_FAILED'))consoleErrors.push(m.text());});
-page.on('pageerror',e=>errors.push(e.message));
+page.on('pageerror',e=>(console.log('PAGEERROR',e.message),errors.push(e.message)));
 page.on('requestfailed',r=>failedRequests.push({url:r.url(),failure:r.failure()?.errorText}));
 const check=(name,value)=>{assert(value,name);checks.push(name);};
 try{
   await page.goto('http://127.0.0.1:4173',{waitUntil:'networkidle'});
-  await page.waitForTimeout(1800);
+  await page.locator('.intro').waitFor({state:'detached',timeout:5000});
   check('WebGL renders a frame',await page.locator('#threejs-container').evaluate(e=>e.classList.contains('webgl-ready')));
   check('Sound starts disabled',await page.locator('#sound-toggle-btn').getAttribute('aria-pressed')==='false');
   await page.screenshot({path:'qa/desktop-hero.png'});
@@ -63,8 +63,8 @@ try{
   await page.locator('#sound-toggle-btn').click();
   check('Sound can be enabled',await page.locator('#sound-toggle-btn').getAttribute('aria-pressed')==='true');
   for(const world of ['development','modeling','football']){
-    await page.locator('.world-nav a[href="#'+world+'"]').click();await page.waitForFunction(w=>document.body.dataset.world===w,world);
-    check(`${world}: direct world navigation updates indicator`,await page.locator('.world-nav a[href="#'+world+'"]').getAttribute('aria-current')==='location');
+    await page.locator('.desktop-nav a[href="#'+world+'"]').click();await page.waitForFunction(w=>document.body.dataset.world===w,world);
+    check(`${world}: direct world navigation updates indicator`,await page.locator('.desktop-nav a[href="#'+world+'"]').getAttribute('aria-current')==='location');
     check(`${world}: sound palette follows world`,await page.locator('#sound-toggle-btn').getAttribute('data-sound-world')===world);
   }
   await page.locator('#sound-toggle-btn').click();
@@ -114,7 +114,7 @@ try{
   await page.setViewportSize({width:1440,height:1000});
   for(const kind of ['editorial','stadium','reconnect']){
     const transition=page.locator('[data-transition="'+kind+'"]');
-    await transition.evaluate(el=>scrollTo({top:el.offsetTop-innerHeight*.7,behavior:'instant'}));await page.waitForTimeout(100);
+    await transition.evaluate(el=>scrollTo({top:el.offsetTop-innerHeight*.22,behavior:'instant'}));await page.waitForTimeout(100);
     const a=Number(await transition.getAttribute('data-progress'));
     await page.evaluate(()=>scrollBy({top:300,behavior:'instant'}));await page.waitForTimeout(100);
     const b=Number(await transition.getAttribute('data-progress'));
@@ -129,3 +129,4 @@ try{
   await writeFile('qa/results.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}
+
