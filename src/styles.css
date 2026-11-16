@@ -128,3 +128,15 @@ body[data-nav-light="true"] .world-nav{color:#24231f}
 body[data-nav-light="false"] .world-nav{color:#eef1f7}
 @media(max-width:760px){.transition-stage>p{transform:translateY(calc((.5 - var(--progress))*28px))}.transition-stage>.mono{margin-bottom:40px}}
 .transition-stadium .transition-stage:before{inset:-25%}
+
+/* Compact application gallery inside the project case study. */
+.ftmball-gallery{display:flex;gap:12px;overflow-x:auto;padding:5px 4px 12px;margin:18px 0 28px}
+.ftmball-screen{flex:0 0 calc((100% - 36px)/4);min-width:110px;padding:0;border:1px solid var(--line);background:#101914;text-align:left;cursor:pointer}
+.ftmball-screen img{display:block;width:100%;height:auto;object-fit:contain}
+.ftmball-screen>span{display:block;padding:9px 8px;font-size:10px;color:var(--muted)}
+.ftmball-screen:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.ftmball-screen{transition:border-color .3s var(--ease-cinema)}.ftmball-screen:hover{border-color:#8fa9cf}}
+
+/* Keep the beach portrait compact within the editorial grid. */
+.gallery-4{width:60%;max-width:320px}
+@media(max-width:760px){.gallery-4{width:62%;max-width:240px}}

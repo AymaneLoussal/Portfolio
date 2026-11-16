@@ -13,6 +13,7 @@
     clearTimeout(introTimer);cancelAnimationFrame(introFrame);introEvents.abort();
     const restore=intro?.contains(document.activeElement);
     intro?.remove();if(restore)document.querySelector('.brand')?.focus();
+    document.dispatchEvent(new CustomEvent('portfolio:intro-end'));
   }
   try{
     if(sessionStorage.getItem('portfolio-v5-intro')||motion.matches||location.hash||scrollY>0)dismissIntro();
@@ -44,8 +45,8 @@
   matchMedia('(min-width:761px)').addEventListener('change',e=>{if(e.matches)closeMenu();});
 
   // Native dialogs supply focus containment and inert background behavior.
-  let opener=null, current=0;
-  function openDialog(dialog,trigger){hideCursor();opener=trigger;dialog.showModal();dialog.querySelector('.close-dialog').focus();}
+  const dialogOpeners=new WeakMap();let current=0,activeGallery=gallery;
+  function openDialog(dialog,trigger){hideCursor();dialogOpeners.set(dialog,trigger);dialog.showModal();dialog.querySelector('.close-dialog').focus();}
   $$('dialog').forEach(dialog=>{
     dialog.querySelector('.close-dialog').addEventListener('click',()=>dialog.close());
     dialog.addEventListener('keydown',e=>{
@@ -56,16 +57,28 @@
       else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
     });
     dialog.addEventListener('click',e=>{const r=dialog.getBoundingClientRect();if(e.target===dialog&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))dialog.close();});
-    dialog.addEventListener('close',()=>opener?.focus());
+    dialog.addEventListener('close',()=>dialogOpeners.get(dialog)?.focus());
   });
   $$('[data-open-project]').forEach(button=>button.addEventListener('click',()=>{
     const p=projects.find(p=>p.id===button.dataset.openProject);
     $('#project-category').textContent=p.category;$('#project-title').textContent=p.name;$('#project-overview').textContent=p.overview;
-    const diagram=$('.case-diagram');diagram.replaceChildren();p.diagram.forEach((label,i)=>{if(i){const arrow=document.createElement('i');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');diagram.append(arrow);}const box=document.createElement('span');box.textContent=label;diagram.append(box);});
+    const diagram=$('.case-diagram');diagram.replaceChildren();diagram.hidden=p.id==='ftmball';p.diagram.forEach((label,i)=>{if(i){const arrow=document.createElement('i');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');diagram.append(arrow);}const box=document.createElement('span');box.textContent=label;diagram.append(box);});
     const body=$('.case-body');body.replaceChildren();
-    [['Context',p.context],['Technical approach',p.architecture],['Project focus',p.focus]].forEach(([title,text])=>{const h=document.createElement('h3'),para=document.createElement('p');h.textContent=title;para.textContent=text;body.append(h,para);});
+    [['Problem being solved',p.context],...(p.contribution?[['My development contribution',p.contribution]]:[]),['Technical approach',p.architecture],[p.id==='ftmball'?'Implemented features':'Project focus',p.focus]].forEach(([title,text])=>{const h=document.createElement('h3'),para=document.createElement('p');h.textContent=title;para.textContent=text;body.append(h,para);});
     const note=document.createElement('p');note.className='verification';note.textContent=p.note;body.append(note);
     const stack=document.createElement('ul');stack.className='stack';p.stack.forEach(t=>{const li=document.createElement('li');li.textContent=t;stack.append(li);});body.append(stack);
+    if(p.screenshots){
+      const heading=document.createElement('h3');heading.textContent='Application screenshots';body.append(heading);
+      const row=document.createElement('div');row.className='ftmball-gallery';row.setAttribute('role','group');row.setAttribute('aria-label','FTMBALL screenshots');
+      p.screenshots.forEach((g,index)=>{
+        const button=document.createElement('button');button.type='button';button.className='ftmball-screen';button.setAttribute('aria-label','Enlarge FTMBALL '+g.title+' screenshot');
+        const img=document.createElement('img');Object.assign(img,{src:g.src,alt:g.alt,width:g.width,height:g.height,loading:'lazy',decoding:'async'});
+        const caption=document.createElement('span');caption.textContent=g.title;caption.className='mono';
+        button.append(img,caption);row.append(button);
+        button.addEventListener('click',()=>{activeGallery=p.screenshots;showImage(index);openDialog(lightbox,button);});
+      });
+      body.append(row);
+    }
     if(p.repository){const link=document.createElement('a');link.href=p.repository;link.textContent='Read the source on GitHub ↗';link.className='text-link';link.target='_blank';link.rel='noopener noreferrer';body.append(link);}
     openDialog($('#project-dialog'),button);
   }));
@@ -74,8 +87,8 @@
   $('#lightbox-img').addEventListener('load',revealImage);
   lightbox.addEventListener('close',()=>imageAnimation?.cancel());
   motion.addEventListener('change',()=>imageAnimation?.cancel());
-  function showImage(index){current=(index+gallery.length)%gallery.length;const g=gallery[current];$('#lightbox-img').src=g.src;$('#lightbox-img').alt=g.alt;$('#lightbox-title').textContent=g.title;$('#lightbox-subtitle').textContent=g.subtitle;$('#lightbox-counter').textContent=`${current+1} / ${gallery.length}`;}
-  $$('.editorial-card').forEach(button=>button.addEventListener('click',e=>{e.preventDefault();showImage(Number(button.dataset.gallery));openDialog(lightbox,button);}));
+  function showImage(index){current=(index+activeGallery.length)%activeGallery.length;const g=activeGallery[current];$('#lightbox-img').src=g.src;$('#lightbox-img').alt=g.alt;$('#lightbox-title').textContent=g.title;$('#lightbox-subtitle').textContent=g.subtitle||'FTMBALL / APPLICATION SCREEN';$('#lightbox-counter').textContent=`${current+1} / ${activeGallery.length}`;}
+  $$('.editorial-card').forEach(button=>button.addEventListener('click',e=>{e.preventDefault();activeGallery=gallery;showImage(Number(button.dataset.gallery));openDialog(lightbox,button);}));
   $('.lightbox-prev').addEventListener('click',()=>showImage(current-1));$('.lightbox-next').addEventListener('click',()=>showImage(current+1));
   lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();showImage(current-1);}if(e.key==='ArrowRight'){e.preventDefault();showImage(current+1);}});
   let touch=null;

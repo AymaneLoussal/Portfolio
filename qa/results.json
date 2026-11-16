@@ -1,7 +1,10 @@
 {
   "version": 5,
-  "date": "2026-11-09T16:52:46.900Z",
+  "date": "2026-11-14T01:13:15.717Z",
   "checks": [
+    "React Bits renders three spotlight gateways",
+    "React Bits signature renders",
+    "Lenis smooth scrolling is active",
     "WebGL renders a frame",
     "Sound starts disabled",
     "No horizontal overflow at 1440px",
@@ -35,6 +38,7 @@
     "Image loads uncropped: assets/modeling-04.jpg",
     "Image loads uncropped: assets/portrait.jpg",
     "Image loads uncropped: assets/football.jpg",
+    "Image loads uncropped: assets/NPQY0942.JPG",
     "Pitch responds to keyboard",
     "Midfielder selection updates pressed state",
     "Pitch highlights midfield",
@@ -72,6 +76,8 @@
     "editorial: animation follows native scroll",
     "stadium: animation follows native scroll",
     "reconnect: animation follows native scroll",
+    "Reduced motion tears down Lenis",
+    "Motion can be re-enabled without reloading",
     "Reduced motion removes sticky transition scenes",
     "No unexpected HTTP errors",
     "No console errors",

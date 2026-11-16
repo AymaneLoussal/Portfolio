@@ -33,7 +33,11 @@ Build regenerates [index.html](index.html) from [scripts/build-page.mjs](scripts
 - **Football:** a stadium-green environment, Difaa Safi profile, and a Winger / Midfielder position explorer. The existing football image is labeled artwork. No performance statistics were invented.
 - **Contact:** separate development, modeling, and football email subjects, plus the supplied GitHub and Instagram destinations. Email is aymanloussal552@gmail.com.
 
-Three scroll-linked transition scenes connect the environments. Native scrolling drives CSS transforms and the current-world indicator; scrolling is never intercepted. Desktop scenes use sticky positioning. Mobile and reduced-motion layouts simplify the transitions. GSAP was unnecessary for these effects.
+Three scroll-linked transition scenes connect the environments. Lenis smooths wheel scrolling on GSAP's ticker, while ScrollTrigger coordinates heading and content reveals, portrait parallax, and a reading-progress line. Anchor links retain URL history and move keyboard focus to their destination. Native touch scrolling is preserved; modal dialogs pause page smoothing. Reduced-motion changes tear down and restore the motion layer without a reload.
+
+React Bits **SpotlightCard** powers the three world gateways and **ShinyText** adds a restrained sheen to the hero signature. These are real React components mounted as small islands; all portfolio content and links remain in the generated HTML for JavaScript-disabled visitors. GSAP SplitText animates the name after the intro and restores its original markup afterward.
+
+The motion source is [src/motion.jsx](src/motion.jsx), with styling in [src/motion.css](src/motion.css). `npm.cmd run build` bundles React, GSAP, Lenis, and the components into local `assets/portfolio-motion.js` and `.css` using esbuild before regenerating the HTML. No runtime CDN is required. Run `npm.cmd ci` before building a fresh checkout. Component attribution and the upstream license are retained in [src/components/react-bits](src/components/react-bits).
 
 Sound is off on every visit and starts only after an explicit gesture. Each environment has a short synthesized tone palette. A single oscillator and gain envelope avoid overlapping voices; disabling sound fades and suspends audio. Hidden tabs suspend audio. Audible quality still needs human listening.
 

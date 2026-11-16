@@ -5,10 +5,17 @@
   "scripts": {
     "test": "node scripts/browser-check.mjs",
     "start": "node scripts/serve.mjs",
-    "build": "node scripts/build-page.mjs",
+    "build": "node scripts/build-motion.mjs && node scripts/build-page.mjs",
     "check": "node --check src/app.js && node --check src/sculpture.js && node --check src/content.js && node scripts/check.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0"
+    "@playwright/test": "^1.65.0",
+    "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.27",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

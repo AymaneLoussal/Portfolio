@@ -1,4 +1,4 @@
-/* Event-driven native scroll choreography: no interception, scroll delays or pinning library. */
+/* World-state and transition choreography, compatible with the Lenis/GSAP motion layer. */
 (() => {
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   const compact=matchMedia('(max-width:760px)');
@@ -28,6 +28,6 @@
   motion.addEventListener('change',schedule);compact.addEventListener('change',schedule);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else schedule();});
   document.fonts?.ready.then(schedule);addEventListener('pageshow',schedule);schedule();
-  if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){if(!motion.matches)entry.target.classList.add('reveal');observer.unobserve(entry.target);}}),{threshold:.08});document.querySelectorAll('.project-copy,.gallery-item,.athlete-profile,.contact-path').forEach(e=>observer.observe(e));addEventListener('pagehide',e=>{if(!e.persisted)observer.disconnect();});}
+  if(!window.portfolioMotion&&'IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){if(!motion.matches)entry.target.classList.add('reveal');observer.unobserve(entry.target);}}),{threshold:.08});document.querySelectorAll('.project-copy,.gallery-item,.athlete-profile,.contact-path').forEach(e=>observer.observe(e));addEventListener('pagehide',e=>{if(!e.persisted)observer.disconnect();});}
   addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;});
 })();

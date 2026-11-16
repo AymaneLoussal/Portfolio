@@ -14,6 +14,10 @@ const check=(name,value)=>{assert(value,name);checks.push(name);};
 try{
   await page.goto('http://127.0.0.1:4173',{waitUntil:'networkidle'});
   await page.locator('.intro').waitFor({state:'detached',timeout:5000});
+  await page.waitForFunction(() => !document.querySelector('.hero-letter'));
+  check('React Bits renders three spotlight gateways',await page.locator('.hero-gateways .spotlight-card').count()===3);
+  check('React Bits signature renders',await page.locator('[data-react-signature] .shiny-text').count()===1);
+  check('Lenis smooth scrolling is active',await page.locator('html').evaluate(el=>el.classList.contains('lenis')));
   check('WebGL renders a frame',await page.locator('#threejs-container').evaluate(e=>e.classList.contains('webgl-ready')));
   check('Sound starts disabled',await page.locator('#sound-toggle-btn').getAttribute('aria-pressed')==='false');
   await page.screenshot({path:'qa/desktop-hero.png'});
@@ -69,7 +73,10 @@ try{
   }
   await page.locator('#sound-toggle-btn').click();
   check('Sound can be disabled',await page.locator('#sound-toggle-btn').getAttribute('aria-pressed')==='false');
-  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('.brand').click();
+  await page.waitForFunction(()=>scrollY<2);
+  await page.waitForTimeout(200);
   await page.screenshot({path:'qa/mobile-hero.png'});
   await page.locator('#mobile-menu-toggle').click();
   check('Mobile menu opens',await page.locator('#mobile-menu-toggle').getAttribute('aria-expanded')==='true');
@@ -81,7 +88,7 @@ try{
   await page.locator('#lightbox').evaluate(el=>{
     const start=new Touch({identifier:1,target:el,clientX:280,clientY:300});
     const end=new Touch({identifier:1,target:el,clientX:100,clientY:305});
-    el.dispatchEvent(new TouchEvent('touchstart',{touches:[start],bubbles:true}));
+    el.dispatchEvent(new TouchEvent('touchstart',{touches:[start],targetTouches:[start],changedTouches:[start],bubbles:true}));
     el.dispatchEvent(new TouchEvent('touchend',{changedTouches:[end],bubbles:true}));
   });
   check('Gallery swipe handler advances',await page.locator('#lightbox-counter').textContent()==='4 / 5');
@@ -121,6 +128,12 @@ try{
     check(`${kind}: animation follows native scroll`,b>a);
   }
   await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#football').evaluate(el=>scrollTo({top:el.offsetTop,behavior:'instant'}));
+  await page.waitForFunction(() => !document.documentElement.classList.contains('lenis'));
+  check('Reduced motion tears down Lenis',await page.locator('html').evaluate(el=>!el.classList.contains('motion-ready')));
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.waitForFunction(() => document.documentElement.classList.contains('lenis'));
+  check('Motion can be re-enabled without reloading',await page.locator('html').evaluate(el=>el.classList.contains('motion-ready')));
+  await page.emulateMedia({reducedMotion:'reduce'});
   check('Reduced motion removes sticky transition scenes',await page.locator('.transition-stage').first().evaluate(el=>getComputedStyle(el).position==='relative'));
   check('No unexpected HTTP errors',httpErrors.length===0);
   check('No console errors',consoleErrors.length===0);
